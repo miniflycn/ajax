@@ -9,6 +9,13 @@ var jsonpID = 0,
     jsonType = 'application/json',
     htmlType = 'text/html',
     blankRE = /^\s*$/
+    
+function attchXHR(xhr) {
+  return new Promise((resolve, reject) => {
+    xhr['resolve'] = resolve
+    xhr['reject'] = reject
+  });
+}
 
 var ajax = module.exports = function(options){
   var settings = extend({}, options || {})
@@ -83,7 +90,7 @@ var ajax = module.exports = function(options){
 
   // avoid sending empty string (#319)
   xhr.send(settings.data ? settings.data : null)
-  return xhr
+  return attchXHR(xhr)
 }
 
 
@@ -122,6 +129,7 @@ function ajaxBeforeSend(xhr, settings) {
 function ajaxSuccess(data, xhr, settings) {
   var context = settings.context, status = 'success'
   settings.success.call(context, data, status, xhr)
+  xhr.resolve(data);
   triggerGlobal(settings, context, 'ajaxSuccess', [xhr, settings, data])
   ajaxComplete(status, xhr, settings)
 }
@@ -129,6 +137,7 @@ function ajaxSuccess(data, xhr, settings) {
 function ajaxError(error, type, xhr, settings) {
   var context = settings.context
   settings.error.call(context, xhr, type, error)
+  xhr.reject(data);
   triggerGlobal(settings, context, 'ajaxError', [xhr, settings, error])
   ajaxComplete(type, xhr, settings)
 }
@@ -183,7 +192,7 @@ ajax.JSONP = function(options){
       ajaxComplete('timeout', xhr, options)
     }, options.timeout)
 
-  return xhr
+  return attchXHR(xhr)
 }
 
 ajax.settings = {
