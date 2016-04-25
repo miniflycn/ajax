@@ -1,23 +1,19 @@
 {
-  "name": "component-ajax",
-  "description": "Standalone AJAX library inspired by jQuery/zepto",
-  "version": "0.0.2",
+  "name": "@alife/ajax",
+  "description": "Standalone AJAX library fork from ForbesLindesay/ajax",
+  "version": "0.0.1",
   "keywords": [],
   "dependencies": {
     "type-of": "*"
   },
   "main": "index.js",
   "license": "MIT",
-  "author": "ForbesLindesay",
+  "author": "Daniel Yang",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ForbesLindesay/ajax.git"
+    "url": "https://github.com/miniflycn/ajax.git"
   },
-  "devDependencies": {
-    "uglify-js": "~2.4.0",
-    "browserify": "~2.29.0"
-  },
-  "scripts": {
-    "prepublish": "browserify index.js | uglifyjs > ajax.min.js"
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
   }
 }
