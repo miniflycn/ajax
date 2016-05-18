@@ -11,7 +11,7 @@ var jsonpID = 0,
     blankRE = /^\s*$/
     
 function attchXHR(xhr) {
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     xhr['resolve'] = resolve
     xhr['reject'] = reject
   });
